@@ -2,7 +2,7 @@
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>     //https://github.com/tzapu/WiFiManager 
-// set pin numbers:         
+         
 #define led1  D2              
 #define led2  D4                
 #define ConfigWiFi_Pin D1 
@@ -10,10 +10,6 @@
 
 WiFiServer server(80);
 String header;
-
-// กำหนดสถานะ LED ที่แสดงบนหน้าเว็บ
-String led1State = "off";
-String led2State = "off";
 
 void setup() 
 {  
@@ -68,10 +64,8 @@ void loop()
         header += c;
 
         if (c == '\n') {
-
           // ถ้าไม่มีข้อมูลเข้ามาแสดงว่า Client ตัดการเชื่อมต่อไปแล้ว 
           if (currentLine.length() == 0) {
-
             client.println("HTTP/1.1 200 OK");
             client.println("Content-type:text/html");
             client.println("Connection: close");
