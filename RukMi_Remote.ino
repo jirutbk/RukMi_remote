@@ -160,8 +160,11 @@ void setup()
   wifiManager.autoConnect(ESP_AP_NAME); 
   while (WiFi.status() != WL_CONNECTED) 
   {
-     delay(250);
-     Serial.print(".");
+    Serial.print(".");
+    digitalWrite(led, HIGH);
+    delay(100);
+    digitalWrite(led, LOW);
+    delay(100);    
   }
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
@@ -178,7 +181,10 @@ void sendNumCh(String numCh){
   {
     digit = numCh.substring(i,i+1);
     irsend.sendRaw(num[digit.toInt()], 67, 38);  
-    delay(200);        
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+    delay(40);       
   }
 }
 
@@ -211,55 +217,49 @@ void loop()
             if (header.indexOf("GET /power") >= 0) {
               irsend.sendRaw(power, 67, 38);  // Send a raw data capture at 38kHz.              
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /source") >= 0) {
               irsend.sendRaw(mute, 67, 38);               
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             }  
             else if (header.indexOf("GET /mute") >= 0) {
               irsend.sendRaw(mute, 67, 38);               
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             } 
             else if (header.indexOf("GET /sound/inc") >= 0) {
               irsend.sendRaw(soundInc, 67, 38);               
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             } 
             else if (header.indexOf("GET /sound/dec") >= 0) {
               irsend.sendRaw(soundDec, 67, 38);                
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /ch/inc") >= 0) {
               irsend.sendRaw(chInc, 67, 38);                
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /ch/dec") >= 0) {
               irsend.sendRaw(chDec, 67, 38);                
               digitalWrite(led, HIGH);
-              delay(100);
+              delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /ch/") >= 0) { //ถ้ากดเลขช่อง 
               String chanel =  header.substring(header.indexOf("GET /ch/")+8, header.indexOf("HTTP/1.1"));     //ตัดเลขช่องรายการ      
-              sendNumCh(chanel);                
-              digitalWrite(led, HIGH);
-              delay(50);
-              digitalWrite(led, LOW);
-              delay(20);
-              digitalWrite(led, HIGH);
-              delay(50);
-              digitalWrite(led, LOW);
+              sendNumCh(chanel);               
+
             }
 
             // ส่วนโค้ดแสดงหน้าเว็บที่ส่งไปให้ Client แสดง
