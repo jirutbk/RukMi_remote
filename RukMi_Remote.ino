@@ -5,6 +5,7 @@
 #include <IRsend.h>
 #include <Ticker.h>
 #include "mainPage.h"       //HTML webpage contents with javascripts
+#include "fullPage.h" 
 #include "TrueHD_raw.h"     //raw ir_dump data
 
 #define led  D0
@@ -149,13 +150,29 @@ void loop()
               delay(60);
               digitalWrite(led, LOW);
             }
+            else if (header.indexOf("GET /info") >= 0) {
+              irsend.sendRaw(binfo, 67, 38);                
+              digitalWrite(led, HIGH);
+              delay(60);
+              digitalWrite(led, LOW);
+            }
+            else if (header.indexOf("GET /exit") >= 0) {
+              irsend.sendRaw(bexit, 67, 38);                
+              digitalWrite(led, HIGH);
+              delay(60);
+              digitalWrite(led, LOW);
+            }
             else if (header.indexOf("GET /ch/") >= 0) { //ถ้ากดเลขช่อง 
               String chanel =  header.substring(header.indexOf("GET /ch/")+8, header.indexOf("HTTP/1.1"));     //ตัดเลขช่องรายการ      
               sendNumCh(chanel);  
             }
 
             // ส่วนโค้ดแสดงหน้าเว็บที่ส่งไปให้ Client แสดง
-            String page = MAIN_page;
+            String page;
+            if (header.indexOf("GET /fullPage") >= 0) 
+              page = FULL_page;           
+            else 
+              page = MAIN_page;         
             client.println(page);
            
             // ส่วนตอนปิดการทำงาน
