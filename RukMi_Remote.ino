@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>    //https://github.com/esp8266/Arduino
 #include <DNSServer.h>
-#include <ESP8266WebServer.h>
 #include <WiFiManager.h>     //https://github.com/tzapu/WiFiManager 
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
+#include <Ticker.h>
 #include "mainPage.h"       //HTML webpage contents with javascripts
 #include "TrueHD_raw.h"     //raw ir_dump data
 
@@ -15,39 +15,37 @@
 WiFiServer server(80);
 String header;
 IRsend irsend(kIrLed);  // Set the GPIO to be used to sending the message.
+Ticker ticker;
 
 void setup() 
 {  
   pinMode(led, OUTPUT);  
-  pinMode(ConfigWiFi_Pin,INPUT_PULLUP);  
-  digitalWrite(led,LOW);
+  pinMode(ConfigWiFi_Pin,INPUT_PULLUP);    
+  ticker.attach(0.6, tick);
   
   irsend.begin();
   Serial.begin(115200, SERIAL_8N1, SERIAL_TX_ONLY);
-  
-  //WiFiManager
-  //Local intialization. Once its business is done, there is no need to keep it around
+   
   WiFiManager wifiManager;
   if(digitalRead(ConfigWiFi_Pin) == LOW) // Press button
   {
     //reset saved settings
     wifiManager.resetSettings(); // go to ip 192.168.4.1 to config
   }
-  //fetches ssid and password from EEPROM and tries to connect
-  //if it does not connect, it starts an access point with the specified name
-  //and goes into a blocking loop awaiting configuration
-  wifiManager.autoConnect(ESP_AP_NAME); 
-  while (WiFi.status() != WL_CONNECTED) 
-  {
-    Serial.print(".");
-    digitalWrite(led, HIGH);
-    delay(100);
-    digitalWrite(led, LOW);
-    delay(100);    
+  wifiManager.setTimeout(300); // กำหนด timeout ของโหมด AP 
+  wifiManager.setAPCallback(configModeCallback); // กำหนด callback ของ AP ไปที่ configModeCallback
+    
+  if (!wifiManager.autoConnect(ESP_AP_NAME)) { 
+    Serial.println("failed to connect and hit timeout");
+    ESP.reset(); // reset อุปกรณ์
+    delay(1000);
   }
+  
+  ticker.detach();
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  digitalWrite(led,LOW);
     
   // เริ่มการทำงานของ Server
   server.begin();
@@ -67,9 +65,21 @@ void sendNumCh(String numCh){
   }
 }
 
+void tick() { 
+  int state = digitalRead(led); 
+  digitalWrite(led, !state); 
+}
+
+void configModeCallback (WiFiManager *myWiFiManager) { // callback เมื่อเชื่อม access point ไม่สำเร็จจะเข้าสู่โหมด AP
+  Serial.println("Entered config mode");
+  Serial.println(WiFi.softAPIP());
+  Serial.println(myWiFiManager->getConfigPortalSSID());
+  ticker.attach(0.2, tick); 
+}
+
 void loop() 
 {  
- // รอ Client มาเชื่อมต่อ
+  // รอ Client มาเชื่อมต่อ
   WiFiClient client = server.available(); 
 
   // ถ้ามี Client ใหม่มาเชื่อมต่อ
@@ -78,15 +88,19 @@ void loop()
     String currentLine = ""; 
 
     // เช็คสถานะว่า Cient ยังเชื่อมต่ออยู่หรือไม่
-    while (client.connected()) { 
-      if (client.available()) { 
+    while (client.connected())
+    { 
+      if (client.available())
+      { 
         char c = client.read(); 
         Serial.write(c); // 
         header += c;
 
-        if (c == '\n') {
+        if (c == '\n') 
+        {
           // ถ้าไม่มีข้อมูลเข้ามาแสดงว่า Client ตัดการเชื่อมต่อไปแล้ว 
-          if (currentLine.length() == 0) {
+          if (currentLine.length() == 0) 
+          {
             client.println("HTTP/1.1 200 OK");
             client.println("Content-type:text/html");
             client.println("Connection: close");
@@ -144,13 +158,15 @@ void loop()
             String page = MAIN_page;
             client.println(page);
            
-     // ส่วนตอนปิดการทำงาน
-            client.println();            
+            // ส่วนตอนปิดการทำงาน
+            client.println(); 
+            client.stop(); //หยุดการเชื่อมต่อ         
             break;
-          } else {
-            currentLine = "";
-          }
-        } else if (c != '\r') {  
+          } 
+          else currentLine = "";
+        }
+        else if (c != '\r') 
+        {  
           currentLine += c;      
         }
       }
