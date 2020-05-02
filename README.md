@@ -11,7 +11,7 @@ D2 -> B
 E -> IR+  
 IR- -> GND  
 
-IR_receiver CHQ-1838  
+IR_receiver CHQ-1838 (หันหน้าเข้าหาหลอด)    
 pin1  ->  OUT   -> D5   
 pin2  ->  GND   
 pin3  ->  VCC_3V  
