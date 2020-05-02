@@ -5,13 +5,13 @@ ESP8266 v 2.6.3    https://github.com/esp8266/Arduino
 WifiManager v 0.15.0       https://github.com/tzapu/WiFiManager         
 IRremoteESP8266 v 2.7.6         
 
-Ir_emitter, transister NPN  
+IR_emitter, transister NPN  
 D2 -> B   
 5V -> C 
 E -> IR+  
 IR- -> GND  
 
-IR_receiver
+IR_receiver CHQ-1838  
 pin1  ->  OUT   -> D5   
 pin2  ->  GND   
 pin3  ->  VCC_3V  
