@@ -5,7 +5,7 @@ ESP8266 v 2.6.3    https://github.com/esp8266/Arduino
 WifiManager v 0.15.0       https://github.com/tzapu/WiFiManager         
 IRremoteESP8266 v 2.7.6         
 
-IR_emitter, transister S9013 NPN  
+IR_emitter, transistor S9013 NPN  
 D2 -> B   
 5V -> C 
 E -> IR+  
