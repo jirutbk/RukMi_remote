@@ -7,7 +7,7 @@ IRremoteESP8266 v 2.7.6
 
 IR_emitter, transistor S9013 NPN  
 D2 -> B   
-5V -> C 
+5V -> C    
 E -> IR+  
 IR- -> GND  
 
