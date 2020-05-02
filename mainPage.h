@@ -97,4 +97,5 @@ function sendData(getUrl) {
 </tr>
 </table>
 </body>
-</html>)=====";
+</html>
+)=====";
