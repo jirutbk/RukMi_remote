@@ -7,7 +7,8 @@
 #include <Ticker.h>
 #include "mainPage2.h"
 #include "fullPage2.h" 
-#include "TrueHD_raw.h"     //raw ir_dump data
+//#include "TrueHD_raw.h"     //raw ir_dump data
+#include "TrueHD.h"
 
 #define led  D0
 #define ConfigWiFi_Pin D1         
@@ -62,7 +63,8 @@ void sendNumCh(String numCh){
   for(byte i=0;i<(numCh.length());i++)    
   {
     digit = numCh.substring(i,i+1);
-    irsend.sendRaw(num[digit.toInt()], 71, 38);  
+    //irsend.sendRaw(num[digit.toInt()], 71, 38); 
+    irsend.sendNEC(num[digit.toInt()]); 
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
@@ -99,55 +101,91 @@ void handleCMD()
   String cmd = server.arg("cmd");
 
   if (cmd == "power") {
-    irsend.sendRaw(power, 71, 38);  // Send a raw data capture at 38kHz.              
+    irsend.sendNEC(power);  // Send a raw data capture at 38kHz.              
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "source") {
-    irsend.sendRaw(source, 71, 38);               
+    irsend.sendNEC(source);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }  
   else if (cmd == "mute") {
-    irsend.sendRaw(mute, 67, 38);               
+    irsend.sendNEC(mute);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   } 
   else if (cmd == "soundInc") {
-    irsend.sendRaw(soundInc, 71, 38);               
+    irsend.sendNEC(soundInc);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   } 
   else if (cmd == "soundDec") {
-    irsend.sendRaw(soundDec, 67, 38);                
+    irsend.sendNEC(soundDec);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "chInc") {
-    irsend.sendRaw(chInc, 71, 38);                
+    irsend.sendNEC(chInc);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "chDec") {
-    irsend.sendRaw(chDec, 71, 38);                
+    irsend.sendNEC(chDec);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "info") {
-    irsend.sendRaw(binfo, 71, 38);                
+    irsend.sendNEC(binfo);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "exit") {
-    irsend.sendRaw(bexit, 71, 38);                
+    irsend.sendNEC(bexit);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "ok") {
+    irsend.sendNEC(ok);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "menu") {
+    irsend.sendNEC(menu);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "up") {
+    irsend.sendNEC(up);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "down") {
+    irsend.sendNEC(down);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "left") {
+    irsend.sendNEC(left);                
+    digitalWrite(led, HIGH);
+    delay(60);
+    digitalWrite(led, LOW);
+  }
+    else if (cmd == "right") {
+    irsend.sendNEC(right);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);

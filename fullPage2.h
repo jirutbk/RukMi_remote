@@ -66,7 +66,26 @@ function sendData(getUrl) {
 	<button class='button buttonC buttonGreen' onclick="sendData('/cmd?cmd=exit')">EXIT</button></td>
 </tr>
 <tr>
+  <td colspan=5><button class='button buttonC buttonGreen' onclick="sendData('/cmd?cmd=menu')">MENU</button></td>
+</tr>
+<tr>
 	<td colspan=5>&nbsp;</td>
+</tr>
+<tr>
+  <td colspan=5><button class='button buttonNum' onclick="sendData('/cmd?cmd=up')">^</button></td> 
+</tr>
+<tr>
+  <td colspan=5>
+    <button class='button buttonNum' onclick="sendData('/cmd?cmd=left')">&#60;</button>&nbsp;&nbsp;&nbsp;
+    <button class='button buttonC' onclick="sendData('/cmd?cmd=ok')">OK</button>&nbsp;&nbsp;&nbsp;
+    <button class='button buttonNum' onclick="sendData('/cmd?cmd=right')">&#62;</button>
+  </td> 
+</tr>
+<tr>
+  <td colspan=5><button class='button buttonNum' onclick="sendData('/cmd?cmd=down')">v</button></td> 
+</tr>
+<tr>
+  <td colspan=5>&nbsp;</td>
 </tr>
 <tr>
 	<td colspan=5>
