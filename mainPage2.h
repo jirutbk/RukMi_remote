@@ -22,7 +22,7 @@ function sendData(getUrl) {
 </script>
 </head>
 <body>
-<h1>RukMi remote V 1.0</h1>
+<h1>RukMi remote V 1.2</h1>
 <table align='center'>
 <tr>	
 	<td colspan=2 width=170><button class='button buttonC buttonRed' onclick="sendData('/cmd?cmd=power')">Power</button></td>
