@@ -66,7 +66,7 @@ void sendNumCh(String numCh){
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
-    delay(500);       
+    delay(250);       
   }
 }
 
