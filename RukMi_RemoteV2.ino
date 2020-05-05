@@ -84,16 +84,12 @@ void configModeCallback (WiFiManager *myWiFiManager) { // callback เมื่�
   ticker.attach(0.2, tick); 
 }
 
-void handleRoot()  
-{
-  String page = MAIN_page;  
-  server.send(200, "text/html", page); 
+void handleRoot(){  
+  server.send(200, "text/html", MAIN_page); 
 }
 
-void handleFullPage()  
-{
-  String page = FULL_page;  
-  server.send(200, "text/html", page); 
+void handleFullPage(){    
+  server.send(200, "text/html", FULL_page); 
 }
 
 void handleCMD()  
@@ -190,16 +186,14 @@ void handleCMD()
     delay(60);
     digitalWrite(led, LOW);
   }
-  else if (cmd == "ch") { //ถ้ากดเลขช่อง 
-    String chanel =  server.arg("num");     //ตัดเลขช่องรายการ      
-    sendNumCh(chanel);  
+  else if (cmd == "ch") { //ถ้ากดเลขช่อง           
+    sendNumCh(server.arg("num"));  
   }
   
   server.send(200, "text/html", "OK"); 
 }
 
-void loop() 
-{  
+void loop() {  
   server.handleClient(); 
 
 }
