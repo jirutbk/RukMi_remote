@@ -58,7 +58,7 @@ void sendNumCh(String numCh){
   for(byte i=0;i<(numCh.length()-1);i++)    
   {
     digit = numCh.substring(i,i+1);
-    irsend.sendRaw(num[digit.toInt()], 67, 38);  
+    irsend.sendRaw(num[digit.toInt()], 71, 38);  
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
@@ -115,7 +115,7 @@ void loop()
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /source") >= 0) {
-              irsend.sendRaw(source, 67, 38);               
+              irsend.sendRaw(source, 71, 38);               
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
@@ -127,7 +127,7 @@ void loop()
               digitalWrite(led, LOW);
             } 
             else if (header.indexOf("GET /sound/inc") >= 0) {
-              irsend.sendRaw(soundInc, 67, 38);               
+              irsend.sendRaw(soundInc, 71, 38);               
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
@@ -139,25 +139,25 @@ void loop()
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /ch/inc") >= 0) {
-              irsend.sendRaw(chInc, 67, 38);                
+              irsend.sendRaw(chInc, 71, 38);                
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /ch/dec") >= 0) {
-              irsend.sendRaw(chDec, 67, 38);                
+              irsend.sendRaw(chDec, 71, 38);                
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /info") >= 0) {
-              irsend.sendRaw(binfo, 67, 38);                
+              irsend.sendRaw(binfo, 71, 38);                
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
             }
             else if (header.indexOf("GET /exit") >= 0) {
-              irsend.sendRaw(bexit, 67, 38);                
+              irsend.sendRaw(bexit, 71, 38);                
               digitalWrite(led, HIGH);
               delay(60);
               digitalWrite(led, LOW);
