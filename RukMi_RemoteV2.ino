@@ -7,8 +7,11 @@
 #include <Ticker.h>
 #include "mainPage2.h"
 #include "fullPage2.h" 
+
 //#include "TrueHD_raw.h"     //raw ir_dump data
 #include "TrueHD.h"
+//#include "SonyTV.h"
+String code = "NEC";  //SONY, NEC
 
 #define led  D0
 #define ConfigWiFi_Pin D1         
@@ -63,8 +66,11 @@ void sendNumCh(String numCh){
   for(byte i=0;i<(numCh.length());i++)    
   {
     digit = numCh.substring(i,i+1);
-    //irsend.sendRaw(num[digit.toInt()], 71, 38); 
-    irsend.sendNEC(num[digit.toInt()]); 
+    if(code == "NEC") 
+      irsend.sendNEC(num[digit.toInt()]);
+    else if(code == "SONY")     
+      irsend.sendSony(num[digit.toInt()], 12, 2);   //12 bits &  repeats 2 time
+    //irsend.sendRaw(num[digit.toInt()], 71, 38); // Send a raw data capture at 38kHz.       
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
@@ -97,91 +103,136 @@ void handleCMD()
   String cmd = server.arg("cmd");
 
   if (cmd == "power") {
-    irsend.sendNEC(power);  // Send a raw data capture at 38kHz.              
+    if(code == "NEC")
+      irsend.sendNEC(power);      
+    else if(code == "SONY")
+      irsend.sendSony(power,12,2);      
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "source") {
-    irsend.sendNEC(source);               
+    if(code == "NEC")
+      irsend.sendNEC(source);      
+    else if(code == "SONY")
+      irsend.sendSony(source,12,2);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }  
   else if (cmd == "mute") {
-    irsend.sendNEC(mute);               
+    if(code == "NEC")
+      irsend.sendNEC(mute);      
+    else if(code == "SONY")
+      irsend.sendSony(mute,12,2);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   } 
   else if (cmd == "soundInc") {
-    irsend.sendNEC(soundInc);               
+    if(code == "NEC")
+      irsend.sendNEC(soundInc);      
+    else if(code == "SONY")
+      irsend.sendSony(soundInc,12,2);               
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   } 
   else if (cmd == "soundDec") {
-    irsend.sendNEC(soundDec);                
+    if(code == "NEC")
+      irsend.sendNEC(soundDec);      
+    else if(code == "SONY")
+      irsend.sendSony(soundDec,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "chInc") {
-    irsend.sendNEC(chInc);                
+    if(code == "NEC")
+      irsend.sendNEC(chInc);      
+    else if(code == "SONY")
+      irsend.sendSony(chInc,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "chDec") {
-    irsend.sendNEC(chDec);                
+    if(code == "NEC")
+      irsend.sendNEC(chDec);      
+    else if(code == "SONY")
+      irsend.sendSony(chDec,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "info") {
-    irsend.sendNEC(binfo);                
+    if(code == "NEC")
+      irsend.sendNEC(binfo);      
+    else if(code == "SONY")
+      irsend.sendSony(binfo,15,2);  // ใช้เป็นปุ่ม stretch              
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
   else if (cmd == "exit") {
-    irsend.sendNEC(bexit);                
+    if(code == "NEC")
+      irsend.sendNEC(bexit);      
+    else if(code == "SONY")
+      irsend.sendSony(bexit,15,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "ok") {
-    irsend.sendNEC(ok);                
+    if(code == "NEC")
+      irsend.sendNEC(ok);      
+    else if(code == "SONY")
+      irsend.sendSony(ok,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "menu") {
-    irsend.sendNEC(menu);                
+    if(code == "NEC")
+      irsend.sendNEC(menu);      
+    else if(code == "SONY")
+      irsend.sendSony(menu,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "up") {
-    irsend.sendNEC(up);                
+    if(code == "NEC")
+      irsend.sendNEC(up);      
+    else if(code == "SONY")
+      irsend.sendSony(up,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "down") {
-    irsend.sendNEC(down);                
+    if(code == "NEC")
+      irsend.sendNEC(down);      
+    else if(code == "SONY")
+      irsend.sendSony(down,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "left") {
-    irsend.sendNEC(left);                
+    if(code == "NEC")
+      irsend.sendNEC(left);      
+    else if(code == "SONY")
+      irsend.sendSony(left,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
   }
     else if (cmd == "right") {
-    irsend.sendNEC(right);                
+    if(code == "NEC")
+      irsend.sendNEC(right);      
+    else if(code == "SONY")
+      irsend.sendSony(right,12,2);                
     digitalWrite(led, HIGH);
     delay(60);
     digitalWrite(led, LOW);
