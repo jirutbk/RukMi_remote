@@ -39,6 +39,8 @@ void setup()
   }
   wifiManager.setTimeout(300); // กำหนด timeout ของโหมด AP 
   wifiManager.setAPCallback(configModeCallback); // กำหนด callback ของ AP ไปที่ configModeCallback
+  //static IP 
+  wifiManager.setSTAStaticIPConfig(IPAddress(192,168,1,81), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
     
   if (!wifiManager.autoConnect(ESP_AP_NAME)) { 
     Serial.println("failed to connect and hit timeout");
